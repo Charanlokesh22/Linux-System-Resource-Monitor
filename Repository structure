@@ -1,0 +1,22 @@
+linux-system-resource-monitor/
+├─ Cargo.toml
+├─ build.rs
+├─ README.md
+├─ docker-compose.yml
+├─ Dockerfile
+├─ proto/
+│  └─ system.proto
+├─ scripts/
+│  ├─ setup.sh
+│  ├─ run_server.sh
+│  └─ run_client.sh
+├─ .github/
+│  └─ workflows/
+│     └─ ci.yml
+└─ src/
+   ├─ main.rs
+   ├─ server.rs
+   ├─ client.rs
+   ├─ metrics.rs
+   ├─ anomaly.rs
+   └─ alerts.rs
