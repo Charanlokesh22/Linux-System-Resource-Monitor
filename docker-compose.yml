@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  lsrm:
+    build: .
+    image: lsrm:latest
+    container_name: lsrm
+    environment:
+      - RUST_LOG=info
+      - CPU_THRESHOLD_PCT=90
+      - MEM_THRESHOLD_PCT=90
+      - DISK_THRESHOLD_PCT=90
+      # - ALERT_WEBHOOK_URL=https://your-webhook.example.com
+    ports:
+      - "50051:50051"
+    restart: unless-stopped
