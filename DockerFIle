@@ -1,0 +1,19 @@
+# --- Build stage ---
+FROM rust:1.79-slim AS build
+WORKDIR /app
+RUN apt-get update && apt-get install -y protobuf-compiler pkg-config libssl-dev && rm -rf /var/lib/apt/lists/*
+COPY Cargo.toml build.rs ./
+COPY proto ./proto
+RUN mkdir src && echo "fn main(){}" > src/main.rs && cargo build --release || true
+COPY src ./src
+RUN cargo build --release
+
+# --- Runtime stage ---
+FROM debian:bookworm-slim
+RUN useradd -m appuser
+WORKDIR /home/appuser
+COPY --from=build /app/target/release/lsrm /usr/local/bin/lsrm
+USER appuser
+EXPOSE 50051
+ENV RUST_LOG=info
+CMD ["lsrm", "server", "--addr", "0.0.0.0:50051", "--interval_ms", "1000", "--top_n", "5"]
